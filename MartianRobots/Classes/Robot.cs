@@ -33,7 +33,7 @@
 
             if (surface is null)
             {
-                throw new ArgumentException($"{nameof(surface)} is null");
+                throw new ArgumentException($"{nameof(Surface)} cannot be null");
             }
 
             X = x;
@@ -45,6 +45,11 @@
 
         public string GetFinalCoordinates(string move)
         {
+            if (move.Length > 100)
+            {
+                throw new ArgumentException("Move instruction should not exceed 100 characters");
+            }
+
             for (int i = 0; i < move.Length; i++)
             {
                 switch (move[i]) {
@@ -108,7 +113,7 @@
                             }
                             break;
                         }
-                    default: throw new NotImplementedException("Not implemented instruction");
+                    default: throw new NotImplementedException($"Not implemented instruction {move[i]}");
                 }
             }
 

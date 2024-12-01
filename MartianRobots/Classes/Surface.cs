@@ -11,10 +11,10 @@ namespace MartianRobots.Classes
 
         public IImmutableSet<(int, int)> DropSpots => _dropSpots.ToImmutableHashSet();
 
-        public Surface(string input)        
+        public Surface(string input)
         {
             var coordinates = input.Split(' ');
-            if (coordinates.Length != 2) 
+            if (coordinates.Length != 2)
             {
                 throw new ArgumentException("Incorrect surface input");
             }
@@ -22,25 +22,28 @@ namespace MartianRobots.Classes
             {
                 throw new ArgumentException("Incorrect x surface value");
             }
-            if (x <= 0) 
+            if (x <= 0 || x > 50) 
             {
-                throw new ArgumentException($"Surface MaxX must be non negative"); 
+                throw new ArgumentException($"Surface MaxX must have value in range from 1 to 50"); 
             }
             if (!int.TryParse(coordinates[1], out var y))
             {
                 throw new ArgumentException("Incorrect y surface value");
             }
-            if (y <= 0)
+            if (y <= 0 || y > 50)
             {
-                throw new ArgumentException($"Surface MaxY must be non negative");
+                throw new ArgumentException($"Surface MaxY must have value in range from 1 to 50");
             }
 
             MaxX = x;
             MaxY = y;
         }
 
-        internal void AddDropSpot(int x, int y)
+        public void AddDropSpot(int x, int y)
         {
+            if (x < 0 || x > MaxX || y < 0 || y > MaxY)
+                throw new ArgumentException($"Position {x} {y} does not exist");
+            
             _dropSpots.Add((x, y));
         }
     }
